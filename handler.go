@@ -4,12 +4,16 @@ import(
 	"net/http"
 	"time"
 	"encoding/json"
+	"database/sql"
+	"strconv"
+	"log"
+
 )
 
 func gedungHandler(w http.ResponseWriter, r *http.Request) {
 		mygedung:= MyGedung {
 		Gedung{id: 1, Nama: "Labtek 5", Alias: "Labtek V"},
-		Gedung{id: 2, Nama: "Labetk 8", Alias: "Labtek 8"},
+		Gedung{id: 2, Nama: "Labtek 8", Alias: "Labtek 8"},
 	}
 	json.NewEncoder(w).Encode(mygedung)
 }
@@ -21,3 +25,21 @@ func toiletHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(mytoilet)
 }
 
+func GetT(w http.ResponseWriter, r *http.Request,id string){
+	myid, _ := strconv.Atoi(id)
+	db, err := sql.Open("mysql","tamu:kosong@tcp(127.0.0.1:3306)/t")
+	if err!= nil{log.Fatal(err)}
+	defer db.Close()
+	myt := MyT{}
+
+	rows, err:= db.Query("select ID, Tempat from myt where id=?", myid)
+	if err!=nil{log.Fatal(err)}
+	defer rows.Close()
+	for rows.Next(){
+		err:= rows.Scan(&myt[myid].ID, &myt[myid].Tempat)
+		if err!=nil{log.Fatal(err)}
+		json.NewEncoder(w).Encode(&myt)
+	}
+	err=rows.Err()
+	if err!=nil{log.Fatal(err)}
+}

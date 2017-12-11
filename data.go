@@ -20,3 +20,8 @@ type Toilet struct {
 }
 type MyToilet []Toilet
 
+type Tcoba struct{
+	ID	int
+	Tempat	string
+}
+type MyT []Tcoba
