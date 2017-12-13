@@ -24,6 +24,35 @@ func main() {
 		fmt.Fprintf(w, "Failed to get DB")
 	}
     })
+
+    //Panggil data satu gedung
+    http.HandleFunc("/gd/", func(w http.ResponseWriter, r *http.Request){
+    switch r.Method{
+    case "GET":
+        s:=r.URL.Path[len("/gd/"):]
+        if s!=""{
+            GetGedung(w,r,s)
+        }
+    default:
+        http.Error(w,"Invalid request method.", 405)
+        fmt.Fprintf(w, "Failed to get DB")
+    }
+    })
+    
+    //Panggil data satu toilet
+    http.HandleFunc("/to/", func(w http.ResponseWriter, r *http.Request){
+    switch r.Method{
+    case "GET":
+        s:=r.URL.Path[len("/to/"):]
+        if s!=""{
+            GetToilet(w,r,s)
+        }
+    default:
+        http.Error(w,"Invalid request method.", 405)
+        fmt.Fprintf(w, "Failed to get DB")
+    }
+    })
+
     http.HandleFunc("/toilet", toiletHandler)
     http.HandleFunc("/gedung", gedungHandler)
     log.Printf("Server starting on port %v\n", port)

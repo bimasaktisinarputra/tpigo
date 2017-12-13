@@ -1,6 +1,6 @@
 package main
 
-import "time"
+import _ "time"
 
 type Gedung struct {
 	id	int
@@ -11,9 +11,8 @@ type MyGedung []Gedung
 
 type Toilet struct {
 	id	int
-	Buka	time.Time
-	Tutup	time.Time
-	Hari	string
+	Buka	string
+	Tutup	string
 	Nilai	int
 	Tempat	string
 	Lantai	int
