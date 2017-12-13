@@ -67,6 +67,32 @@ func GetGedung(w http.ResponseWriter, r *http.Request, id string){
 	if err!=nil{log.Fatal(err)}
 }
 
+func GetAllGedung(w http.ResponseWriter, r *http.Request){
+	db, err := sql.Open("mysql",
+		"root:@tcp(127.0.0.1:3306)/tpi")
+	if err !=nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	gd := Gedung{}
+	rows, err := db.Query("select id, nama, nama_alt from gedung")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	for rows.Next(){
+		err := rows.Scan(&gd.id, &gd.Nama, &gd.Alias)
+		if err !=nil{
+			log.Fatal(err)
+		}
+		json.NewEncoder(w).Encode(&gd)
+	}
+	err=rows.Err()
+}
+
+
 func GetToilet(w http.ResponseWriter, r *http.Request, id string){
 	myid, _ := strconv.Atoi(id)
 	db, err := sql.Open("mysql","root:@tcp(127.0.0.1:3306)/tpi")
@@ -88,23 +114,27 @@ func GetToilet(w http.ResponseWriter, r *http.Request, id string){
 	if err!=nil{log.Fatal(err)}
 }
 
-func Test(w http.ResponseWriter, r *http.Request, id string){
-	myid, _ := strconv.Atoi(id)
-	db, err := sql.Open("mysql","root:@tcp(127.0.0.1:3306)/tpi")
-	if err!= nil{log.Fatal(err)}
+func GetAllToilet(w http.ResponseWriter, r *http.Request){
+	db, err := sql.Open("mysql",
+		"root:@tcp(127.0.0.1:3306)/tpi")
+	if err !=nil {
+		log.Fatal(err)
+	}
 	defer db.Close()
-	//myt := MyT{}
-	//to:=Toilet{}
 
-	rows, err:= db.Query("select buka from toilet where id=?", myid)
-	if err!=nil{log.Fatal(err)}
+	to := Toilet{}
+	rows, err := db.Query("select id, buka, tutup, nilai, tempat, lantai from toilet")
+
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer rows.Close()
-	
-		//err= rows.Scan(&to.Buka)
-		if err!=nil{log.Fatal(err)}
-		//log.Print(to.Buka)
-	
-
+	for rows.Next(){
+		err := rows.Scan(&to.id, &to.Buka, &to.Tutup, &to.Nilai, &to.Tempat, &to.Lantai)
+		if err !=nil{
+			log.Fatal(err)
+		}
+		json.NewEncoder(w).Encode(&to)
+	}
 	err=rows.Err()
-	if err!=nil{log.Fatal(err)}
 }

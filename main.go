@@ -39,6 +39,17 @@ func main() {
     }
     })
     
+    //Panggil data semua gedung
+    http.HandleFunc("/AllGedung/", func(w http.ResponseWriter, r *http.Request){
+    switch r.Method{
+    case "GET":
+            GetAllGedung(w,r)
+    default:
+        http.Error(w,"Invalid request method.", 405)
+        fmt.Fprintf(w, "Failed to get DB")
+    }
+    })
+
     //Panggil data satu toilet
     http.HandleFunc("/to/", func(w http.ResponseWriter, r *http.Request){
     switch r.Method{
@@ -47,6 +58,17 @@ func main() {
         if s!=""{
             GetToilet(w,r,s)
         }
+    default:
+        http.Error(w,"Invalid request method.", 405)
+        fmt.Fprintf(w, "Failed to get DB")
+    }
+    })
+
+    //Panggil data semua gedung
+    http.HandleFunc("/AllToilet/", func(w http.ResponseWriter, r *http.Request){
+    switch r.Method{
+    case "GET":
+            GetAllToilet(w,r)
     default:
         http.Error(w,"Invalid request method.", 405)
         fmt.Fprintf(w, "Failed to get DB")
