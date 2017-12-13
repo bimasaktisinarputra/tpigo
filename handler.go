@@ -7,7 +7,7 @@ import(
 	"database/sql"
 	"strconv"
 	"log"
-
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func gedungHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,19 +27,21 @@ func toiletHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetT(w http.ResponseWriter, r *http.Request,id string){
 	myid, _ := strconv.Atoi(id)
-	db, err := sql.Open("mysql","tamu:kosong@tcp(127.0.0.1:3306)/t")
+	db, err := sql.Open("mysql","root:@tcp(127.0.0.1:3306)/t")
 	if err!= nil{log.Fatal(err)}
 	defer db.Close()
-	myt := MyT{}
+	//myt := MyT{}
+	tc:=Tcoba{}
 
-	rows, err:= db.Query("select ID, Tempat from myt where id=?", myid)
+	rows, err:= db.Query("select ID, Tempat from t where id=?", myid)
 	if err!=nil{log.Fatal(err)}
 	defer rows.Close()
 	for rows.Next(){
-		err:= rows.Scan(&myt[myid].ID, &myt[myid].Tempat)
+		err:= rows.Scan(&tc.ID, &tc.Tempat)
 		if err!=nil{log.Fatal(err)}
-		json.NewEncoder(w).Encode(&myt)
+		json.NewEncoder(w).Encode(&tc)
 	}
+
 	err=rows.Err()
 	if err!=nil{log.Fatal(err)}
 }

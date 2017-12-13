@@ -12,13 +12,13 @@ func main() {
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintf(w, "Hello world!")
     })
-    http.HandleFunc("/t", func(w http.ResponseWriter, r *http.Request){
+    http.HandleFunc("/t/", func(w http.ResponseWriter, r *http.Request){
 	switch r.Method{
 	case "GET":
-		s:=r.URL.Path[len("/t"):]
+		s:=r.URL.Path[len("/t/"):]
 		if s!=""{
-		GetT(w,r,s)
-	}
+			GetT(w,r,s)
+		}
 	default:
 		http.Error(w,"Invalid request method.", 405)
 		fmt.Fprintf(w, "Failed to get DB")
