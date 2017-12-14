@@ -10,7 +10,7 @@ import (
 func main() {
     port :=8022
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "Hello world!")
+	    fmt.Fprintf(w, "Hello!\nUntuk melihat data seluruh Toilet, gunakan 167.205.67.246:8022/AllToilet/\nUntuk melihat data seluruh Gedung, gunakan 167.205.67.246:8022/AllGedung/\nUntuk melihat data toilet dengan id=n, gunakan 167.205.67.246:8022/Toilet/[n]\nUntuk melihat data gedung dengan id=n,gunakan 167.205.67.246:8022/Gedung/[n]")
     })
     /*http.HandleFunc("/t/", func(w http.ResponseWriter, r *http.Request){
 	switch r.Method{
