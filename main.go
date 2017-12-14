@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-    port :=8080
+    port :=8022
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintf(w, "Hello world!")
     })
-    http.HandleFunc("/t/", func(w http.ResponseWriter, r *http.Request){
+    /*http.HandleFunc("/t/", func(w http.ResponseWriter, r *http.Request){
 	switch r.Method{
 	case "GET":
 		s:=r.URL.Path[len("/t/"):]
@@ -23,13 +23,13 @@ func main() {
 		http.Error(w,"Invalid request method.", 405)
 		fmt.Fprintf(w, "Failed to get DB")
 	}
-    })
+    })*/
 
     //Panggil data satu gedung
-    http.HandleFunc("/gd/", func(w http.ResponseWriter, r *http.Request){
+    http.HandleFunc("/Gedung/", func(w http.ResponseWriter, r *http.Request){
     switch r.Method{
     case "GET":
-        s:=r.URL.Path[len("/gd/"):]
+        s:=r.URL.Path[len("/Gedung/"):]
         if s!=""{
             GetGedung(w,r,s)
         }
@@ -51,10 +51,10 @@ func main() {
     })
 
     //Panggil data satu toilet
-    http.HandleFunc("/to/", func(w http.ResponseWriter, r *http.Request){
+    http.HandleFunc("/Toilet/", func(w http.ResponseWriter, r *http.Request){
     switch r.Method{
     case "GET":
-        s:=r.URL.Path[len("/to/"):]
+        s:=r.URL.Path[len("/Toilet/"):]
         if s!=""{
             GetToilet(w,r,s)
         }
@@ -75,8 +75,6 @@ func main() {
     }
     })
 
-    http.HandleFunc("/toilet", toiletHandler)
-    http.HandleFunc("/gedung", gedungHandler)
     log.Printf("Server starting on port %v\n", port)
     log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v",port),nil))
 }
